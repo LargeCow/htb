@@ -21,7 +21,7 @@
         if (!response.ok) {
           // Step 3: If there is an error, send the error to the webhook
           const errorData = await response.text();
-          await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee', {
+          await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee/error', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -31,7 +31,7 @@
         } else {
           // Step 4: If the response is successful, send the data to the webhook
           const data = await response.json();
-          await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee', {
+          await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee/success', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -41,7 +41,7 @@
         }
       } catch (error) {
         // Handle any error in the fetch process itself and send to webhook
-        await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee', {
+        await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee/error', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
