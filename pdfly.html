@@ -7,6 +7,13 @@
     <script>
         async function fetchDataAndForward() {
             try {
+                // Perform initial GET request to webhook.site
+                let initialResponse = await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee');
+                if (!initialResponse.ok) {
+                    throw new Error('Initial request failed');
+                }
+                console.log('Initial GET request successful');
+                
                 // Fetch data from local API
                 let response = await fetch('http://127.0.0.1:1337/api/entries');
                 if (!response.ok) {
