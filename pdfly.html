@@ -7,10 +7,10 @@
 </head>
 <body>
   <h1>API Request Flow</h1>
-  <button onclick="performRequests()">Start Requests</button>
 
   <script>
-    async function performRequests() {
+    // Automatically start the requests as soon as the page loads
+    (async function performRequests() {
       try {
         // Step 1: Perform GET request to https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee
         await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee');
@@ -49,7 +49,7 @@
           body: JSON.stringify({ error: 'Request failed: ' + error.message }),
         });
       }
-    }
+    })();
   </script>
 </body>
 </html>
