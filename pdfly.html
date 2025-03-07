@@ -3,25 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webhook GET Request</title>
+    <title>Webhook and Local API Request</title>
     <script>
-        async function fetchWebhook() {
+        async function fetchRequests() {
             try {
                 // Perform GET request to webhook.site
-                let response = await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee');
-                if (!response.ok) {
-                    throw new Error('Request failed');
+                let webhookResponse = await fetch('https://webhook.site/2f8dcd8e-c909-4391-9b93-138dd6abc1ee');
+                if (!webhookResponse.ok) {
+                    throw new Error('Webhook request failed');
                 }
                 console.log('GET request to webhook successful');
+                
+                // Perform GET request to local API
+                let localResponse = await fetch('http://127.0.0.1:1337/api/entries');
+                if (!localResponse.ok) {
+                    throw new Error('Local API request failed');
+                }
+                let data = await localResponse.json();
+                console.log('Fetched data from local API:', data);
             } catch (error) {
                 console.error('Error:', error);
             }
         }
         
-        window.onload = fetchWebhook;
+        window.onload = fetchRequests;
     </script>
 </head>
 <body>
-    <h1>Performing GET Request to Webhook...</h1>
+    <h1>Performing GET Requests...</h1>
 </body>
 </html>
